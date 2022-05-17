@@ -9,7 +9,7 @@
 
     <servlet>
         <servlet-name>testServlet</servlet-name>
-        <servlet-class>edu.school21.cinema.TestServlet</servlet-class>
+        <servlet-class>edu.school21.cinema.servlets.TestServlet</servlet-class>
     </servlet>
     <servlet-mapping>
         <servlet-name>testServlet</servlet-name>
