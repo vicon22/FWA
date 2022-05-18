@@ -7,6 +7,8 @@ import org.springframework.context.annotation.ComponentScan;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Component;
 
+import java.util.Optional;
+
 @Component
 @ComponentScan(basePackages = {"edu.school21.cinema"})
 public class UsersServiceImpl implements UsersService{
@@ -21,16 +23,16 @@ public class UsersServiceImpl implements UsersService{
     }
 
     @Override
-    public String signUp(String email, String firstName, String lastName, String phone, String password) {
+    public Optional<String> signUp(String email, String firstName, String lastName, String phone, String password) {
 
         User user = new User(email, firstName,lastName, phone, passwordEncoder.encode(password));
 
         if (usersRepository.findByEmail(email).isPresent()){
-            return null;
+            return Optional.empty();
         } else {
             usersRepository.save(user);
         }
-        return user.getPassword();
+        return Optional.of(user.getPassword());
     }
 
     @Override
@@ -38,10 +40,8 @@ public class UsersServiceImpl implements UsersService{
 
         User user = usersRepository.findByEmail(email).orElse(null);
         if (user != null) {
-
             return passwordEncoder.matches(password, user.getPassword());
         }
-
         return false;
     }
 }

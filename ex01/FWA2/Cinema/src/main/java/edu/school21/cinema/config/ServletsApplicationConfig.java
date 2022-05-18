@@ -22,7 +22,7 @@ public class ServletsApplicationConfig {
     private String DB_USER = "postgres";
 
 //    @Value("${db.password}")
-    private String DB_PASSWORD = "postgres";
+    private String DB_PASSWORD = "1234";
 
 //    @Value("${db.driver.name}")
     private String DB_DRIVER_NAME = "org.postgresql.Driver";
