@@ -1,6 +1,5 @@
 package edu.school21.cinema.config;
 
-import com.zaxxer.hikari.HikariDataSource;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
@@ -11,21 +10,25 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 
 @Configuration
-//@PropertySource(value = "/WEB-INF/application.properties")
+@PropertySource(value = "/application.properties")
+//@PropertySource(value = "application.properties")
+//@PropertySource({"classpath:../webapp/WEB-INF/application.properties"})
+//@PropertySource("../webapp/WEB-INF/application.properties")
+//@PropertySource("classpath:../webapp/WEB-INF/application.properties")
 @ComponentScan(basePackages = {"edu.school21.cinema"})
 public class ServletsApplicationConfig {
 
-//    @Value("${db.url}")
-    private String DB_URL = "jdbc:postgresql://localhost/postgres";
+    @Value("${db.url}")
+    private String DB_URL;
 
-//    @Value("${db.user}")
-    private String DB_USER = "postgres";
+    @Value("${db.user}")
+    private String DB_USER;
 
-//    @Value("${db.password}")
-    private String DB_PASSWORD = "1234";
+    @Value("${db.password}")
+    private String DB_PASSWORD;
 
-//    @Value("${db.driver.name}")
-    private String DB_DRIVER_NAME = "org.postgresql.Driver";
+    @Value("${db.driver.name}")
+    private String DB_DRIVER_NAME;
 
     @Bean
     public DriverManagerDataSource getHikariDataSource() {

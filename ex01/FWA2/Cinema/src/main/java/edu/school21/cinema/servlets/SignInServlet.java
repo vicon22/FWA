@@ -15,8 +15,10 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.util.Optional;
 
 @WebServlet("/signIn")
 public class SignInServlet extends HttpServlet {
@@ -37,10 +39,11 @@ public class SignInServlet extends HttpServlet {
 
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-        resp.setContentType("text/html");
-        PrintWriter printWriter = resp.getWriter();
-        printWriter.write("signIn!");
-        printWriter.close();
+//        resp.setContentType("text/html");
+//        PrintWriter printWriter = resp.getWriter();
+//        printWriter.write("signIn!");
+//        printWriter.close();
+        req.getRequestDispatcher("/WEB-INF/html/signIn.html").forward(req,resp);
     }
 
     @Override
@@ -53,10 +56,20 @@ public class SignInServlet extends HttpServlet {
         String password = req.getParameter("psw");
 
         resp.setContentType("text/html");
-        printWriter.write("signIn!POOOOST");
-        printWriter.write("<br>");
-        boolean ans = usersService.signIn(email, password);
-        printWriter.write(Boolean.toString(ans));
+        Optional<User> optUser = usersService.signIn(email, password);
+
+        if (optUser.isPresent()) {
+            HttpSession httpSession = req.getSession();
+            httpSession.setAttribute("user", optUser.get());
+            printWriter.write("<h1>Authentication success</h1>");
+        } else {
+            req.getRequestDispatcher("/WEB-INF/html/unsucSignIn.html").forward(req,resp);
+        }
+
+        printWriter.write("<div class=\"container signin\">\n" +
+                "    <p>Go to <a href=\"/\">start page</a>.</p>\n" +
+                "  </div>");
+
         printWriter.close();
     }
 

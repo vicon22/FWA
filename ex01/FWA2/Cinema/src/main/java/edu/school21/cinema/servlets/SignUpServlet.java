@@ -18,6 +18,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.util.Optional;
 
 @WebServlet("/signUp")
 public class SignUpServlet extends HttpServlet {
@@ -36,10 +37,11 @@ public class SignUpServlet extends HttpServlet {
 
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-        resp.setContentType("text/html");
-        PrintWriter printWriter = resp.getWriter();
-        printWriter.write("signUp!");
-        printWriter.close();
+//        resp.setContentType("text/html");
+//        PrintWriter printWriter = resp.getWriter();
+//        printWriter.write("signUp!");
+//        printWriter.close();
+        req.getRequestDispatcher("/WEB-INF/html/signUp.html").forward(req,resp);
     }
 
     @Override
@@ -47,6 +49,7 @@ public class SignUpServlet extends HttpServlet {
 
 
         PrintWriter printWriter = resp.getWriter();
+        Optional<String> ans;
 
         String email = req.getParameter("email");
         String firstName = req.getParameter("firstName");
@@ -54,19 +57,18 @@ public class SignUpServlet extends HttpServlet {
         String phone = req.getParameter("phone");
         String password = req.getParameter("psw");
 
-
-        User user = new User(email,firstName,lastName,phone,password);
-
         resp.setContentType("text/html");
-        printWriter.write("signUp!POOOOST");
-        printWriter.write("<br>");
-        printWriter.write(user.toString());
-        printWriter.write("<br>");
-        printWriter.write("<br>");
-        String ans = usersService.signUp(email,firstName,lastName,phone,password).orElse("---null---");
-        printWriter.write(ans);
-        printWriter.write("<br>");
-        printWriter.write(user.toString());
+
+        ans = usersService.signUp(email,firstName,lastName,phone,password);
+
+        if (ans.isPresent()) {
+            printWriter.write("<h1>Account successfully registered</h1>");
+        } else {
+            printWriter.write("<h1>Account with this email already exists</h1>");
+        }
+        printWriter.write("<div class=\"container signin\">\n" +
+                "    <p>Go to <a href=\"/\">start page</a>.</p>\n" +
+                "  </div>");
         printWriter.close();
     }
 
