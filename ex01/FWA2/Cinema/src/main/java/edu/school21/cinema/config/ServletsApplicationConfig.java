@@ -11,10 +11,8 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 
 @Configuration
 @PropertySource(value = "/application.properties")
-//@PropertySource(value = "application.properties")
-//@PropertySource({"classpath:../webapp/WEB-INF/application.properties"})
-//@PropertySource("../webapp/WEB-INF/application.properties")
-//@PropertySource("classpath:../webapp/WEB-INF/application.properties")
+//@PropertySource("classpath:../application.properties")
+////@PropertySource("classpath:../webapp/WEB-INF/application.properties")
 @ComponentScan(basePackages = {"edu.school21.cinema"})
 public class ServletsApplicationConfig {
 
