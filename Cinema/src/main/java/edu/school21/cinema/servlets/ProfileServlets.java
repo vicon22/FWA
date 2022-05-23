@@ -15,13 +15,11 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import javax.servlet.http.HttpSession;
 import java.io.IOException;
 import java.io.PrintWriter;
-import java.util.Optional;
 
-@WebServlet("/signIn")
-public class SignInServlet extends HttpServlet {
+@WebServlet("/profile")
+public class ProfileServlets extends HttpServlet {
 
     private UsersService usersService;
     private PasswordEncoder passwordEncoder;
@@ -43,35 +41,21 @@ public class SignInServlet extends HttpServlet {
 //        PrintWriter printWriter = resp.getWriter();
 //        printWriter.write("signIn!");
 //        printWriter.close();
-        req.getRequestDispatcher("/WEB-INF/html/signIn.html").forward(req,resp);
-    }
 
-    @Override
-    protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+         User user = (User) req.getSession().getAttribute("user");
+         if (user == null) {
+             resp.setStatus(403);
+             req.getRequestDispatcher("/WEB-INF/html/forbidden.html").forward(req,resp);
+         }
+         else {
+             PrintWriter out = resp.getWriter();
+             out.println(user.toString());
+             req.setAttribute("user", user);
+             req.getRequestDispatcher("/WEB-INF/jsp/profile.jsp").forward(req, resp);
+         }
 
 
-        PrintWriter printWriter = resp.getWriter();
-
-        String email = req.getParameter("email");
-        String password = req.getParameter("psw");
-
-        resp.setContentType("text/html");
-        Optional<User> optUser = usersService.signIn(email, password);
-
-        if (optUser.isPresent()) {
-            HttpSession httpSession = req.getSession();
-            httpSession.setAttribute("user", optUser.get());
-            printWriter.write("<h1>Authentication success</h1>");
-        } else {
-            HttpSession httpSession = req.getSession();
-            httpSession.setAttribute("user", null);
-            req.getRequestDispatcher("/WEB-INF/html/unsucSignIn.html").forward(req,resp);
-        }
-
-        printWriter.write("<p>Go to <a href=\"/\">start page</a>.\n");
-        printWriter.write("<p>Go to <a href=\"/profile\">profile page</a>.");
-
-        printWriter.close();
+//        req.getRequestDispatcher("/WEB-INF/jsp/profile.jsp").forward(req,resp);
     }
 
 }
