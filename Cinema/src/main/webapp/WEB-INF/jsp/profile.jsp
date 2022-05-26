@@ -1,4 +1,5 @@
-<%--
+<%@ page import="edu.school21.cinema.models.User" %>
+<%@ page import="edu.school21.cinema.models.Session" %><%--
   Created by IntelliJ IDEA.
   User: eveiled
   Date: 5/23/22
@@ -15,14 +16,21 @@
 
 <h1>Profile</h1>
 
-<c:forEach var="user" item="${requestScope.user}">
+<% User user = (User)request.getSession().getAttribute("user");%>
+
+<% for (Session auth :user.getSessionList()) {%>
+<tr>
+    <li>Date: <td><%=auth.getDate()%></td></li>
+    <li>Ip: <td><%=auth.getIp()%></td></li>
+</tr>
+<%}%>
+
     <ul>
-        <li>ToString: <c:out value="user.toString()"/></li>
-        <li>Email: <c:out value="user.email"/></li>
-        <li>FirstName: <c:out value="user.firstName"/></li>
-        <li>LastName: <c:out value="user.lastName"/></li>
-        <li>PhoneNumber: <c:out value="user.phone"/></li>
-        <li>Password: <c:out value="user.password"/></li>
+        <li>Email: <%=user.getEmail()%></li>
+        <li>FirstName: <%=user.getFirstName()%></li>
+        <li>LastName: <%=user.getLastName()%></li>
+        <li>PhoneNumber: <%=user.getPhone()%></li>
+        <li>Password: <%=user.getPassword()%></li>
     </ul>
     <hr/>
 

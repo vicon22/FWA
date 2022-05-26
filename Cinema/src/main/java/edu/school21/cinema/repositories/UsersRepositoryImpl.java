@@ -2,6 +2,7 @@ package edu.school21.cinema.repositories;
 
 
 import com.zaxxer.hikari.HikariDataSource;
+import edu.school21.cinema.models.Session;
 import edu.school21.cinema.models.User;
 import edu.school21.cinema.repositories.UsersRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -13,8 +14,10 @@ import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.RowMapper;
 import java.sql.ResultSet;
 import java.sql.Timestamp;
+import java.util.LinkedList;
 import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 import static java.lang.String.format;
 
@@ -27,12 +30,24 @@ public class UsersRepositoryImpl implements UsersRepository {
     private final JdbcTemplate jdbcTemplate;
 
     RowMapper<User> ROW_MAPPER = (ResultSet resultSet, int rowNum) -> {
+
+        String email = resultSet.getString("email");
+
         return new User(
-                resultSet.getString("email"),
+                email,
                 resultSet.getString("firstName"),
                 resultSet.getString("lastName"),
                 resultSet.getString("phone"),
-                resultSet.getString("password"));
+                resultSet.getString("password"),
+                findSessions(email));
+    };
+
+    RowMapper<Session> SESSION_MAPPER = (ResultSet resultSet, int rowNum) -> {
+        return new Session(
+                Integer.parseInt(resultSet.getString("session_id")),
+                resultSet.getString("user_email"),
+                resultSet.getString("ip"),
+                resultSet.getString("date"));
     };
 
     @Autowired
@@ -53,6 +68,16 @@ public class UsersRepositoryImpl implements UsersRepository {
     @Override
     public void save(User entity) {
         jdbcTemplate.update(format("INSERT INTO %s (email, firstName, lastName, phone, password) VALUES ('%s', '%s', '%s', '%s', '%s')", tableName, entity.getEmail(), entity.getFirstName(), entity.getLastName(), entity.getPhone(), entity.getPassword()));
+    }
+
+    @Override
+    public void saveSession(Session session) {
+        jdbcTemplate.update(format("INSERT INTO %s (user_email, ip, date) VALUES ('%s', '%s', '%s')", "sessions", session.getEmail(), session.getIp(), session.getDate()));
+    }
+
+    @Override
+    public List<Session> findSessions(String email) {
+        return jdbcTemplate.query(format("SELECT * FROM %s WHERE user_email = '%s'", "sessions", email), SESSION_MAPPER);
     }
 
     @Override

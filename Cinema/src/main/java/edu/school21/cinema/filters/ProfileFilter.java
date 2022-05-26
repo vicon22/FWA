@@ -10,7 +10,7 @@ import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import java.io.IOException;
 
-@WebFilter(servletNames = {"Profile"})
+//@WebFilter(servletNames = {"Profile"})
 public class ProfileFilter implements Filter {
 
     @Override

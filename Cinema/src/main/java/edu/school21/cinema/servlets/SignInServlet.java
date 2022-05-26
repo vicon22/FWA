@@ -1,6 +1,7 @@
 package edu.school21.cinema.servlets;
 
 import edu.school21.cinema.config.ServletsApplicationConfig;
+import edu.school21.cinema.models.Session;
 import edu.school21.cinema.models.User;
 import edu.school21.cinema.repositories.UsersRepository;
 import edu.school21.cinema.services.UsersService;
@@ -19,6 +20,7 @@ import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.util.List;
 import java.util.Optional;
 
 @WebServlet(value = "/signIn", name = "SignIn")
@@ -52,7 +54,7 @@ public class SignInServlet extends HttpServlet {
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
 
 
-        PrintWriter printWriter = resp.getWriter();
+//        PrintWriter printWriter = resp.getWriter();
 
         String email = req.getParameter("email");
         String password = req.getParameter("psw");
@@ -61,19 +63,29 @@ public class SignInServlet extends HttpServlet {
         Optional<User> optUser = usersService.signIn(email, password);
 
         if (optUser.isPresent()) {
+
+            User user = optUser.get();
+
             HttpSession httpSession = req.getSession();
-            httpSession.setAttribute("user", optUser.get());
-            printWriter.write("<h1>Authentication success</h1>");
+            usersRepository.saveSession(new Session(user.getEmail(), req.getRemoteAddr()));
+
+            List<Session> sessionList = usersRepository.findSessions(user.getEmail());
+
+            user.setSessionList(sessionList);
+
+            httpSession.setAttribute("user", user);
+            resp.sendRedirect("/profile");
+//            printWriter.write("<h1>Authentication success</h1>");
         } else {
             HttpSession httpSession = req.getSession();
             httpSession.setAttribute("user", null);
             req.getRequestDispatcher("/WEB-INF/html/unsucSignIn.html").forward(req,resp);
         }
 
-        printWriter.write("<p>Go to <a href=\"/\">start page</a>.\n");
-        printWriter.write("<p>Go to <a href=\"/profile\">profile page</a>.");
-
-        printWriter.close();
+//        printWriter.write("<p>Go to <a href=\"/\">start page</a>.\n");
+//        printWriter.write("<p>Go to <a href=\"/profile\">profile page</a>.");
+//
+//        printWriter.close();
     }
 
 }

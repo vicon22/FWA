@@ -25,7 +25,7 @@ public class UsersServiceImpl implements UsersService{
     @Override
     public Optional<String> signUp(String email, String firstName, String lastName, String phone, String password) {
 
-        User user = new User(email, firstName,lastName, phone, passwordEncoder.encode(password));
+        User user = new User(email, firstName,lastName, phone, passwordEncoder.encode(password), null);
 
         if (usersRepository.findByEmail(email).isPresent()){
             return Optional.empty();

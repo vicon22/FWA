@@ -1,5 +1,7 @@
 package edu.school21.cinema.models;
 
+import java.util.List;
+
 public class User {
 
     private String email;
@@ -7,13 +9,15 @@ public class User {
     private String lastName;
     private String phone;
     private String password;
+    private List<Session> sessionList;
 
-    public User(String email, String firstName, String lastName, String phone, String password) {
+    public User(String email, String firstName, String lastName, String phone, String password, List<Session> sessionList) {
         this.email = email;
         this.firstName = firstName;
         this.lastName = lastName;
         this.phone = phone;
         this.password = password;
+        this.sessionList = sessionList;
     }
 
     public String getEmail() {
@@ -56,6 +60,15 @@ public class User {
         this.password = password;
     }
 
+
+    public List<Session> getSessionList() {
+        return sessionList;
+    }
+
+    public void setSessionList(List<Session> sessionList) {
+        this.sessionList = sessionList;
+    }
+
     @Override
     public String toString() {
         return "User{" +
@@ -64,6 +77,7 @@ public class User {
                 ", lastName='" + lastName + '\'' +
                 ", phone='" + phone + '\'' +
                 ", password='" + password + '\'' +
+                ", sessionList=" + sessionList +
                 '}';
     }
 }

@@ -11,7 +11,7 @@ import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import java.io.IOException;
 
-@WebFilter(servletNames = {"SignIn", "SignUp"})
+//@WebFilter(servletNames = {"SignIn", "SignUp"})
 public class SignFilter implements Filter {
 
     @Override
