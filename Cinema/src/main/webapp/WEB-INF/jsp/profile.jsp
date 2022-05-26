@@ -23,7 +23,6 @@
         <li>LastName: <c:out value="user.lastName"/></li>
         <li>PhoneNumber: <c:out value="user.phone"/></li>
         <li>Password: <c:out value="user.password"/></li>
-
     </ul>
     <hr/>
 

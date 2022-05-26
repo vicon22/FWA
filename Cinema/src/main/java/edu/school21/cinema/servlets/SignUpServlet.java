@@ -11,6 +11,7 @@ import org.springframework.context.annotation.AnnotationConfigApplicationContext
 import org.springframework.security.crypto.password.PasswordEncoder;
 
 import javax.servlet.ServletConfig;
+import javax.servlet.ServletContext;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
@@ -20,7 +21,7 @@ import java.io.IOException;
 import java.io.PrintWriter;
 import java.util.Optional;
 
-@WebServlet("/signUp")
+@WebServlet(value = "/signUp", name = "SignUp")
 public class SignUpServlet extends HttpServlet {
 
     private UsersService usersService;
@@ -29,7 +30,8 @@ public class SignUpServlet extends HttpServlet {
     @Override
     public void init(ServletConfig config) throws ServletException {
 
-        ApplicationContext context = new AnnotationConfigApplicationContext(ServletsApplicationConfig.class);
+        ServletContext servletContext = config.getServletContext();
+        ApplicationContext context = (ApplicationContext)servletContext.getAttribute("springContext");
         usersService = context.getBean(UsersServiceImpl.class);
         passwordEncoder = context.getBean(PasswordEncoder.class);
 
