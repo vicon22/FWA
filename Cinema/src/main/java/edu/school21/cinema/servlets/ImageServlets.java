@@ -23,7 +23,7 @@ public class ImageServlets extends HttpServlet {
         HttpSession session = req.getSession();
         User user = (User) session.getAttribute("user");
         writer.write(user.toString());
-        req.getC
+//        req.getC
         resp.setContentType("text/jsp");
 
         writer.write("((((\n");
