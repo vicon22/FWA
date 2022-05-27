@@ -18,6 +18,7 @@ CREATE TABLE sessions(
     user_email varchar(50) NOT NULL,
     ip varchar(250) NOT NULL,
     date varchar(250) NOT NULL,
+    time varchar(250) NOT NULL,
     FOREIGN KEY (user_email) REFERENCES users(email)
 );
 

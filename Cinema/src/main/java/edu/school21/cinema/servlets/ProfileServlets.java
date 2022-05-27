@@ -16,8 +16,13 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
+import java.io.File;
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.util.Arrays;
+import java.util.Base64;
+import org.apache.commons.io.FileUtils;
 
 @WebServlet(value = {"/profile"}, name = "Profile")
 public class ProfileServlets extends HttpServlet {
@@ -25,6 +30,7 @@ public class ProfileServlets extends HttpServlet {
     private UsersService usersService;
     private PasswordEncoder passwordEncoder;
     private UsersRepository usersRepository;
+    private String uploadPath;
 
     @Override
     public void init(ServletConfig config) throws ServletException {
@@ -34,7 +40,7 @@ public class ProfileServlets extends HttpServlet {
         usersService = context.getBean(UsersServiceImpl.class);
         passwordEncoder = context.getBean(PasswordEncoder.class);
         usersRepository = context.getBean(UsersRepository.class);
-
+        uploadPath = context.getBean(String.class);
     }
 
     @Override
@@ -45,6 +51,30 @@ public class ProfileServlets extends HttpServlet {
 //        out.println(user.toString());
 
 
+
+        resp.setContentType("text/html");
+        req.setCharacterEncoding("UTF-8");
+        HttpSession session = req.getSession();
+        File imagesDir = new File(uploadPath + user.getEmail());
+        if (!imagesDir.exists()) {
+            System.out.println("none exists");
+            imagesDir.mkdir();
+        }
+        System.out.println(imagesDir.getAbsolutePath());
+        req.setAttribute("uploadPath", uploadPath + user.getEmail());
+        File image = new File(uploadPath + user.getEmail());
+        for (File file : image.listFiles())
+            if (file.getName().contains("DS_Store"))
+                file.delete();
+        if ((image.listFiles().length != 0)) {
+            File[] files = image.listFiles();
+            Arrays.sort(files, (f1, f2) -> Long.valueOf(f1.lastModified()).compareTo(f2.lastModified()));
+            byte[] fileContent = FileUtils.readFileToByteArray(files[files.length - 1]);
+            String encodedString = Base64.getEncoder().encodeToString(fileContent);
+            req.setAttribute("image", encodedString);
+        }
+
+        req.setAttribute("auths", user.getSessionList());
         req.setAttribute("user", user);
         req.getRequestDispatcher("/WEB-INF/jsp/profile.jsp").forward(req, resp);
     }

@@ -47,7 +47,8 @@ public class UsersRepositoryImpl implements UsersRepository {
                 Integer.parseInt(resultSet.getString("session_id")),
                 resultSet.getString("user_email"),
                 resultSet.getString("ip"),
-                resultSet.getString("date"));
+                resultSet.getString("date"),
+                resultSet.getString("time"));
     };
 
     @Autowired
@@ -72,7 +73,7 @@ public class UsersRepositoryImpl implements UsersRepository {
 
     @Override
     public void saveSession(Session session) {
-        jdbcTemplate.update(format("INSERT INTO %s (user_email, ip, date) VALUES ('%s', '%s', '%s')", "sessions", session.getEmail(), session.getIp(), session.getDate()));
+        jdbcTemplate.update(format("INSERT INTO %s (user_email, ip, date, time) VALUES ('%s', '%s', '%s', '%s')", "sessions", session.getEmail(), session.getIp(), session.getDate(), session.getTime()));
     }
 
     @Override

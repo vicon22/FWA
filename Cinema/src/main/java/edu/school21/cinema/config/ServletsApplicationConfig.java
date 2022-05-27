@@ -27,6 +27,8 @@ public class ServletsApplicationConfig {
 
     @Value("${db.driver.name}")
     private String DB_DRIVER_NAME;
+    @Value("${storage.path}")
+    private String UPLOAD_PATH;
 
     @Bean
     public DriverManagerDataSource getHikariDataSource() {
@@ -42,6 +44,9 @@ public class ServletsApplicationConfig {
     public PasswordEncoder PasswordEncoder() {
         return new BCryptPasswordEncoder();
     }
+
+    @Bean
+    public String uploadPath() { return UPLOAD_PATH; }
 
 }
 
