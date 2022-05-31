@@ -1,25 +1,32 @@
 # FWA
 
-Web application prototype using Java Servlet API stack. 
-MVP application to partially implement registration and authentication mechanisms.
-Each new exercise complements the previous one.
+Веб приложение использующее Java Servlet API стек.
+
+Приложение позволяет регистрироваться новым пользователям,
+проходить аутентификацию существующим, 
+загружать фотографии и видеть историю логинов пользователя.
 
 ## ex00
-Web application provide HTML registration and authentication pages in response to */signIn* and */signUp* URL requests. All data go to SignUp servlet in a POST request using \<form> HTML tag. The information is stored in a database, while the password shall be encrypted using **BCrypt** algorithm. When a POST request is sent to SignIn servlet with an email and a password, a check is performed if a corresponding user exists in the database, as well as their password is correct. If the check is successful, an HttpSession object with user attribute shall be generated (attribute’s value is an object containing current user data). In case of a failed authentication, user redirected back to the login page. Application’s Spring context  accessible to all servlets via **ServletContextListener**. Data for connecting to the database available in **application.properties**.
+Веб-приложение предоставляет HTML-страницы регистрации и аутентификации в ответ на URL-запросы */signIn* и */signUp*. 
+Все данные передаются сервлету SignUp в запросе POST с использованием HTML-тега <form>. 
+Информация хранится в базе данных, а пароль шифруется с использованием алгоритма **BCrypt**. 
+Когда запрос POST отправляется сервлету SignIn с адресом электронной почты и паролем, выполняется проверка, существует ли соответствующий пользователь в базе данных, 
+а также правильность его пароля. В случае успешной проверки должен быть сгенерирован объект HttpSession с пользовательским атрибутом. 
+В случае неудачной аутентификации пользователь перенаправляется обратно на страницу входа. 
+Spring context доступен для всех сервлетов через **ServletContextListener**. Данные для подключения к базе доступны в **application.properties**.
 
 ## ex01 
-- Profile page access only to authenticated users.
-- For security, we create a **Filter** that can handle any incoming requests. This filter will check for presence of the attribute in the current session. If the attribute is found, access to the requested resource (*/profile* in our case) shall be provided.
-- Pages for */signUp* and */signIn* URLs may be retrieved for unauthorized requests. If the attribute is present, a user shall be redirected to */profile* page.
+- Доступ к странице профиля только для аутентифицированных пользователей.
+- В целях безопасности мы создаем **Filter**, который может обрабатывать любые входящие запросы. Этот фильтр будет проверять наличие атрибута в текущем сеансе. Если атрибут найден, должен быть предоставлен доступ к запрошенному ресурсу (*/profile* в нашем случае).
+- Страницы для URL-адресов */signUp* и */signIn* могут быть получены для несанкционированных запросов. Если атрибут присутствует, пользователь будет перенаправлен на страницу */profile*.
 
-Also, in case of an unauthorized request of a page that requires an attribute, you shall return 403 (FORBIDDEN) status.
-
+Также в случае несанкционированного запроса страницы, требующей атрибута, вы должны вернуть статус 403 (FORBIDDEN).
 ## ex02
-Implemented profile page as a JSP file. The page display the following current user data:
-  - First name
-  - Last name
-  - email
+Реализована страница профиля в виде файла JSP. На странице отображаются следующие текущие данные пользователя:
 
-Information about the date / time / IP address of all user authentications as a list. The page have a user’s "avatar" loading functionality. The uploaded image shall be saved to disk. Since users can upload images in identical files.
-  - An uploaded image available via its URL - http://host:port/app-name/images/imageunique-name
-  - In application.properties, there storage.path parameter to indicate the path to the folder where uploaded files are stored.
+- Имя
+- Фамилия
+- email
+
+Информация о дате/времени/IP-адресе всех аутентификаций пользователей в виде списка. На странице есть функция загрузки «аватара» пользователя.
+
