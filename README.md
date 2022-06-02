@@ -29,13 +29,11 @@ Main создаст схему и две таблицы: `fwa.users` и `fwa.ses
 
 Веб-приложение предоставляет HTML-страницы регистрации и аутентификации в ответ на URL-запросы */signIn* и */signUp*. 
 
-Картинки «сноски»:
+**/signIn** и **/signUp**:
 
-![Картинка][signIn]
-![Картинка][signUp]
-
-[signIn]: //placehold.it/250x100
-[signUp]: //placehold.it/200x100
+![signIn](imagesForMD/SignUp.png)
+<img src="https://github.com/favicon.ico" width="60">
+![signUp](imagesForMD/SignIn.png)
 
 Все данные передаются сервлету SignUp в запросе POST с использованием HTML-тега form. 
 Информация хранится в базе данных, а пароль шифруется с использованием алгоритма **BCrypt**. 
