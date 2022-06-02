@@ -1,7 +1,8 @@
 package edu.school21.cinema.models;
 
+
 import java.time.LocalDateTime;
-import java.time.LocalTime;
+import java.time.format.DateTimeFormatter;
 
 public class Session {
 
@@ -12,7 +13,7 @@ public class Session {
     private String time;
 
     public Session(String email, String ip) {
-        this.id = IdGenerator.getInstance().getValue();
+        this.id = 1;
         this.email = email;
         if (ip.equals("0:0:0:0:0:0:0:1"))
         {
@@ -20,7 +21,7 @@ public class Session {
         }
         this.ip = ip;
         this.date = LocalDateTime.now().toLocalDate().toString();
-        this.time = LocalTime.now().toString();
+        this.time = LocalDateTime.now().format(DateTimeFormatter.ofPattern("HH:mm:ss"));
     }
 
     public Session(int id, String email, String ip, String date, String time) {
@@ -84,26 +85,5 @@ public class Session {
                 ", date='" + date + '\'' +
                 ", time='" + time + '\'' +
                 '}';
-    }
-}
-
-class IdGenerator{
-    private static IdGenerator instance;
-    private static int value;
-
-    private IdGenerator() {
-        value = 0;
-    }
-
-    public static IdGenerator getInstance() {
-        if (instance == null) {
-            instance = new IdGenerator();
-        }
-        value++;
-        return instance;
-    }
-
-    public int getValue() {
-        return value;
     }
 }

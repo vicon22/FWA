@@ -1,12 +1,41 @@
 # FWA
 
-## Веб приложение использующее Java Servlet API стек.
+##Веб приложение использующее Java Servlet API стек.
 
 Приложение позволяет регистрироваться новым пользователям,
-проходить аутентификацию существующим, 
+проходить аутентификацию существующим,
 загружать фотографии и видеть историю логинов пользователя.
+C помощью [servlets][1], [filters][2], [listeners][3], [repositories][4], [services][5].
+
+[1]: https://github.com/vicon22/FWA/tree/main/Cinema/src/main/java/edu/school21/cinema/servlets
+[2]: https://github.com/vicon22/FWA/tree/main/Cinema/src/main/java/edu/school21/cinema/filters
+[3]: https://github.com/vicon22/FWA/tree/main/Cinema/src/main/java/edu/school21/cinema/listeners
+[4]: https://github.com/vicon22/FWA/tree/main/Cinema/src/main/java/edu/school21/cinema/repositories
+[5]: https://github.com/vicon22/FWA/tree/main/Cinema/src/main/java/edu/school21/cinema/services
+
+---
+
+**Servlet container**: Apache Tomcat 9.0.63\
+**Model Builder**: Apache Maven
+
+Для запуска приложения требуется запустить сначала класс **Main**. 
+Main создаст схему и две таблицы: `fwa.users` и `fwa.sessions`. После этого можно поднимать сервер и все будет работать корректно.
+
+Для тестирования аутентификации можно воспользоваться уже зарегистрированным пользователем со следующими данными:\
+**Email**: `z.isupov@gmail.com`\
+**Password**: `pleaseHireMe`
+
+---
 
 Веб-приложение предоставляет HTML-страницы регистрации и аутентификации в ответ на URL-запросы */signIn* и */signUp*. 
+
+Картинки «сноски»:
+
+![Картинка][signIn]
+![Картинка][signUp]
+
+[signIn]: //placehold.it/250x100
+[signUp]: //placehold.it/200x100
 
 Все данные передаются сервлету SignUp в запросе POST с использованием HTML-тега form. 
 Информация хранится в базе данных, а пароль шифруется с использованием алгоритма **BCrypt**. 

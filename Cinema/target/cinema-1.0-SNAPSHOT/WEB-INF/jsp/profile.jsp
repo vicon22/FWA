@@ -39,7 +39,7 @@
                 <img src="${pageContext.request.contextPath}/images/Anonymity.jpeg" style="height: 400px; width: 50%;">
             </div>
         <%}%>
-        <form action="${pageContext.request.contextPath}/images" enctype="multipart/form-data" method="post">
+        <form action="${pageContext.request.contextPath}/profile" enctype="multipart/form-data" method="post">
             <input type="file" id="image" name="image" accept="image/*">
             <button type="submit" style="width: 50%">Загрузить фото</button>
         </form>

@@ -11,7 +11,6 @@ import org.springframework.context.annotation.AnnotationConfigApplicationContext
 import org.springframework.context.annotation.ComponentScan;
 
 import javax.servlet.ServletConfig;
-import javax.servlet.ServletContext;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
@@ -19,7 +18,6 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.io.PrintWriter;
-import java.util.LinkedList;
 import java.util.List;
 
 @WebServlet("/users")
@@ -31,10 +29,7 @@ public class UsersServlet extends HttpServlet {
 
 
     @Override
-    public void init ( ServletConfig config ) throws ServletException {
-//        ServletContext context = config.getServletContext();
-//        ApplicationContext springContext = (ApplicationContext) context.getAttribute("springContext");
-//        this.usersService = springContext.getBean(UsersService.class);
+    public void init ( ServletConfig config ) {;
 
         ApplicationContext context = new AnnotationConfigApplicationContext(ServletsApplicationConfig.class);
         usersService = context.getBean(UsersServiceImpl.class);
@@ -42,7 +37,7 @@ public class UsersServlet extends HttpServlet {
     }
 
     @Override
-    protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+    protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws IOException {
 
         List<User> list = usersRepository.findAll();
 

@@ -4,29 +4,53 @@ import edu.school21.cinema.config.ServletsApplicationConfig;
 import edu.school21.cinema.models.Session;
 import edu.school21.cinema.repositories.UsersRepository;
 import edu.school21.cinema.repositories.UsersRepositoryImpl;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.annotation.AnnotationConfigApplicationContext;
+import org.springframework.context.annotation.PropertySource;
+import org.springframework.jdbc.datasource.DriverManagerDataSource;
+import org.springframework.security.crypto.password.PasswordEncoder;
 
 import java.io.File;
+import java.io.FileNotFoundException;
+import java.sql.*;
+import java.time.LocalTime;
+import java.time.format.DateTimeFormatter;
+import java.util.Scanner;
 
 public class Main {
 
-    public static void main(String[] args) {
-        ApplicationContext context = new AnnotationConfigApplicationContext(ServletsApplicationConfig.class);
-        UsersRepository usersRepository = context.getBean(UsersRepositoryImpl.class);
-        String str = usersRepository.findByEmail("john@gmail.com").get().toString();
-        System.out.println(str);
+    public static void main(String[] args) throws FileNotFoundException {
 
-        Session session1 = new Session("john@gmail.com","1");
-        Session session2 = new Session("john@gmail.com","1");
+        final ApplicationContext context = new AnnotationConfigApplicationContext(ServletsApplicationConfig.class);
+        final String DB_SCHEMA = "src/main/resources/sql/schema.sql";
+        final String DB_DATA = "src/main/resources/sql/data.sql";
+        Connection connection;
 
-        System.out.println(session1.getEmail());
+        try {
+            DriverManagerDataSource dataSource = context.getBean(DriverManagerDataSource.class);
+            connection = dataSource.getConnection();
+        } catch (SQLException e) {
+            e.printStackTrace();
+            throw new RuntimeException();
+        }
 
-        usersRepository.saveSession(session1);
-        usersRepository.saveSession(session2);
+        runQueriesFromFile(connection, DB_SCHEMA);
+        runQueriesFromFile(connection, DB_DATA);
 
-        System.out.println(session1);
-        System.out.println(session2);
-        System.out.println(usersRepository.findSessions("john@gmail.com"));
+    }
+
+    private static void runQueriesFromFile(Connection connection, String filename) throws FileNotFoundException {
+        Scanner scanner = new Scanner(
+                new File(filename)).useDelimiter(";");
+        try {
+            while (scanner.hasNext()) {
+                connection.createStatement().execute(scanner.next().trim());
+            }
+        }
+        catch (SQLException e){
+            System.out.println(e.getMessage());
+        }
+        scanner.close();
     }
 }

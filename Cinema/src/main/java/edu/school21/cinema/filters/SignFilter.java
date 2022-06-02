@@ -5,13 +5,11 @@ import edu.school21.cinema.models.User;
 
 import javax.servlet.*;
 import javax.servlet.annotation.WebFilter;
-import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import javax.servlet.http.HttpSession;
 import java.io.IOException;
 
-@WebFilter(servletNames = {"SignUp"})
+//@WebFilter(servletNames = {"SignUp", "SignIn"})
 public class SignFilter implements Filter {
 
     @Override
@@ -22,6 +20,7 @@ public class SignFilter implements Filter {
 
         User user = (User) req.getSession().getAttribute("user");
 
+        System.out.println(user);
         if (user != null)
         {
             req.setAttribute("user", user);

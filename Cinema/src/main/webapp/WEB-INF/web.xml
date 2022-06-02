@@ -10,13 +10,4 @@
         <welcome-file>/WEB-INF/html/startPage.html</welcome-file>
     </welcome-file-list>
 
-    <servlet>
-        <servlet-name>testServlet</servlet-name>
-        <servlet-class>edu.school21.cinema.servlets.TestServlet</servlet-class>
-    </servlet>
-    <servlet-mapping>
-        <servlet-name>testServlet</servlet-name>
-        <url-pattern>/test</url-pattern>
-    </servlet-mapping>
-
 </web-app>

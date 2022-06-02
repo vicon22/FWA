@@ -1,23 +1,18 @@
 package edu.school21.cinema.repositories;
 
 
-import com.zaxxer.hikari.HikariDataSource;
 import edu.school21.cinema.models.Session;
 import edu.school21.cinema.models.User;
-import edu.school21.cinema.repositories.UsersRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.ComponentScan;
+import org.springframework.jdbc.core.JdbcTemplate;
+import org.springframework.jdbc.core.RowMapper;
 import org.springframework.jdbc.datasource.DriverManagerDataSource;
 import org.springframework.stereotype.Component;
 
-import org.springframework.jdbc.core.JdbcTemplate;
-import org.springframework.jdbc.core.RowMapper;
 import java.sql.ResultSet;
-import java.sql.Timestamp;
-import java.util.LinkedList;
 import java.util.List;
 import java.util.Optional;
-import java.util.stream.Collectors;
 
 import static java.lang.String.format;
 
@@ -26,7 +21,8 @@ import static java.lang.String.format;
 public class UsersRepositoryImpl implements UsersRepository {
 
     DriverManagerDataSource dataSource;
-    private final String tableName = "users";
+    private final String tableName = "fwa.users";
+    private final String sessionsTableName = "fwa.sessions";
     private final JdbcTemplate jdbcTemplate;
 
     RowMapper<User> ROW_MAPPER = (ResultSet resultSet, int rowNum) -> {
@@ -73,12 +69,12 @@ public class UsersRepositoryImpl implements UsersRepository {
 
     @Override
     public void saveSession(Session session) {
-        jdbcTemplate.update(format("INSERT INTO %s (user_email, ip, date, time) VALUES ('%s', '%s', '%s', '%s')", "sessions", session.getEmail(), session.getIp(), session.getDate(), session.getTime()));
+        jdbcTemplate.update(format("INSERT INTO %s (user_email, ip, date, time) VALUES ('%s', '%s', '%s', '%s')", sessionsTableName, session.getEmail(), session.getIp(), session.getDate(), session.getTime()));
     }
 
     @Override
     public List<Session> findSessions(String email) {
-        return jdbcTemplate.query(format("SELECT * FROM %s WHERE user_email = '%s'", "sessions", email), SESSION_MAPPER);
+        return jdbcTemplate.query(format("SELECT * FROM %s WHERE user_email = '%s'", sessionsTableName, email), SESSION_MAPPER);
     }
 
     @Override
