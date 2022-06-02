@@ -32,8 +32,8 @@ Main создаст схему и две таблицы: `fwa.users` и `fwa.ses
 **/signIn** и **/signUp**:
 
 ![signIn](imagesForMD/SignUp.png)
-<img src="https://github.com/vicon22/FWA/blob/main/imagesForMD/SignUp.png" width="60">
-<img src="https://github.com/vicon22/FWA/blob/main/imagesForMD/SignIn.png" width="60">
+<img src="https://github.com/vicon22/FWA/blob/main/imagesForMD/SignUp.png" width="300">
+<img src="https://github.com/vicon22/FWA/blob/main/imagesForMD/SignIn.png" width="300">
 ![signUp](imagesForMD/SignIn.png)
 
 Все данные передаются сервлету SignUp в запросе POST с использованием HTML-тега form.
