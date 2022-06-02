@@ -1,7 +1,6 @@
 # FWA
 
-
-##Веб приложение использующее Java Servlet API стек.
+ ## Веб приложение использующее Java Servlet API стек.
 
 
 Приложение позволяет регистрироваться новым пользователям,
@@ -17,7 +16,7 @@ C помощью [servlets][1], [filters][2], [listeners][3], [repositories][4],
 
 ---
 
-###Запуск приложения
+ ### Запуск приложения
 
 **Servlet container**: Apache Tomcat 9.0.63\
 **Model Builder**: Apache Maven
