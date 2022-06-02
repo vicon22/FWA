@@ -35,10 +35,8 @@ Main создаст схему и две таблицы: `fwa.users` и `fwa.ses
 **/signIn** и **/signUp**:
 
 [comment]: <> (![signIn]&#40;imagesForMD/SignUp.png&#41;)
-<img src="https://github.com/vicon22/FWA/blob/main/imagesForMD/SignUp.png" width="500">
-<img src="https://github.com/vicon22/FWA/blob/main/imagesForMD/SignIn.png" width="500">
-
-[comment]: <> (![signUp]&#40;imagesForMD/SignIn.png&#41;)
+<img src="https://github.com/vicon22/FWA/blob/main/imagesForMD/SignIn.png" width="650">
+<img src="https://github.com/vicon22/FWA/blob/main/imagesForMD/SignUp.png" width="650">
 
 Все данные передаются сервлету SignUp в запросе POST с использованием HTML-тега form.
 Информация хранится в базе данных, а пароль шифруется с использованием алгоритма **BCrypt**.
@@ -66,5 +64,7 @@ Spring context доступен для всех сервлетов через [*
 - Имя
 - Фамилия
 - email
+
+<img src="https://github.com/vicon22/FWA/blob/main/imagesForMD/Profile.png" width="650">
 
 Информация о дате/времени/IP-адресе всех аутентификаций пользователей в виде списка. На странице есть функция загрузки «аватара» пользователя.
