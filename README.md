@@ -16,7 +16,10 @@ C помощью [servlets][1], [filters][2], [listeners][3], [repositories][4],
 ---
 
 **Servlet container**: Apache Tomcat 9.0.63\
-**Model Builder**: Apache Maven
+**Model Builder**: Apache Maven\
+Данные для конфигурации базы данных храняться в [**application.properties**][6]
+
+[6]: https://github.com/vicon22/FWA/blob/main/Cinema/src/main/resources/application.properties
 
 Для запуска приложения требуется запустить сначала класс **Main**.
 Main создаст схему и две таблицы: `fwa.users` и `fwa.sessions`. После этого можно поднимать сервер и все будет работать корректно.
@@ -31,10 +34,11 @@ Main создаст схему и две таблицы: `fwa.users` и `fwa.ses
 
 **/signIn** и **/signUp**:
 
-![signIn](imagesForMD/SignUp.png)
-<img src="https://github.com/vicon22/FWA/blob/main/imagesForMD/SignUp.png" width="300">
-<img src="https://github.com/vicon22/FWA/blob/main/imagesForMD/SignIn.png" width="300">
-![signUp](imagesForMD/SignIn.png)
+[comment]: <> (![signIn]&#40;imagesForMD/SignUp.png&#41;)
+<img src="https://github.com/vicon22/FWA/blob/main/imagesForMD/SignUp.png" width="350">
+<img src="https://github.com/vicon22/FWA/blob/main/imagesForMD/SignIn.png" width="350">
+
+[comment]: <> (![signUp]&#40;imagesForMD/SignIn.png&#41;)
 
 Все данные передаются сервлету SignUp в запросе POST с использованием HTML-тега form.
 Информация хранится в базе данных, а пароль шифруется с использованием алгоритма **BCrypt**.
@@ -43,15 +47,19 @@ Main создаст схему и две таблицы: `fwa.users` и `fwa.ses
 а также правильность его пароля. В случае успешной проверки должен быть сгенерирован объект HttpSession с пользовательским атрибутом.
 
 В случае неудачной аутентификации пользователь перенаправляется обратно на страницу входа.
-Spring context доступен для всех сервлетов через **ServletContextListener**.
+Spring context доступен для всех сервлетов через [**ServletContextListener**][7].
+
+[7]: https://github.com/vicon22/FWA/blob/main/Cinema/src/main/java/edu/school21/cinema/listeners/AppListener.java
 
 Данные для подключения к базе доступны в **application.properties**.
 
+---
+
 - Доступ к странице профиля только для аутентифицированных пользователей.
-- В целях безопасности мы создаем **Filter**, который может обрабатывать любые входящие запросы. Этот фильтр будет проверять наличие атрибута в текущем сеансе. Если атрибут найден, должен быть предоставлен доступ к запрошенному ресурсу (*/profile* в нашем случае).
+- В целях безопасности создан [**Filter**][2], который может обрабатывать запросы на /profile. Этот фильтр будет проверять наличие атрибута в текущем сеансе. Если атрибут найден, должен быть предоставлен доступ к запрошенному ресурсу (*/profile* в нашем случае).
 - Страницы для URL-адресов */signUp* и */signIn* могут быть получены для несанкционированных запросов. Если атрибут присутствует, пользователь будет перенаправлен на страницу */profile*.
 
-Также в случае несанкционированного запроса страницы, требующей атрибута, вы должны вернуть статус 403 (FORBIDDEN).
+Также в случае несанкционированного запроса страницы, требующей атрибута, вернется статус 403 (FORBIDDEN).
 
 Реализована страница профиля в виде файла JSP. На странице отображаются следующие текущие данные пользователя:
 
