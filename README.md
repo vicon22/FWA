@@ -1,6 +1,7 @@
 # FWA
 
-##Веб приложение использующее Java Servlet API стек.
+ ## Веб приложение использующее Java Servlet API стек.
+
 
 Приложение позволяет регистрироваться новым пользователям,
 проходить аутентификацию существующим,
@@ -14,6 +15,8 @@ C помощью [servlets][1], [filters][2], [listeners][3], [repositories][4],
 [5]: https://github.com/vicon22/FWA/tree/main/Cinema/src/main/java/edu/school21/cinema/services
 
 ---
+
+ ### Запуск приложения
 
 **Servlet container**: Apache Tomcat 9.0.63\
 **Model Builder**: Apache Maven
